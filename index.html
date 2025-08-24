@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Cybersecurity Interactive Demo</title>
+  <style>
+    body {
+      font-family: monospace;
+      background: #111;
+      color: #0f0;
+      padding: 20px;
+    }
+    h1 { color: #f33; }
+    .box {
+      border: 1px solid #0f0;
+      padding: 10px;
+      margin: 15px 0;
+      background: #000;
+    }
+    .popup {
+      display: none;
+      position: fixed;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      background: #222;
+      color: #fff;
+      padding: 20px;
+      border: 2px solid #f33;
+      z-index: 1000;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔍 Info che sto raccogliendo su di te...</h1>
+  <div id="output" class="box">Caricamento...</div>
+
+  <div id="popup" class="popup">
+    <h2>⚠️ 2° Errore</h2>
+    <p>Hai cliccato! Questo file scaricato era innocuo, ma in un sito malevolo 
+    avrebbe potuto essere un malware. Pensa prima di agire.</p>
+    <button onclick="document.getElementById('popup').style.display='none'">Chiudi</button>
+  </div>
+
+  <script>
+    // ---- Fingerprinting base ----
+    function getGPU() {
+      try {
+        let canvas = document.createElement("canvas");
+        let gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+        if (!gl) return "N/A";
+        let debugInfo = gl.getExtension("WEBGL_debug_renderer_info");
+        return debugInfo ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) : "N/A";
+      } catch(e) {
+        return "N/A";
+      }
+    }
+
+    let info = {
+      userAgent: navigator.userAgent,
+      language: navigator.language,
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      screen: screen.width + "x" + screen.height,
+      gpu: getGPU()
+    };
+
+    // Scrive intanto i dati del browser
+    let output = document.getElementById("output");
+    output.innerHTML = "<b>Browser info:</b><br>" +
+      "User-Agent: " + info.userAgent + "<br>" +
+      "Lingua: " + info.language + "<br>" +
+      "Fuso orario: " + info.timezone + "<br>" +
+      "Risoluzione: " + info.screen + "<br>" +
+      "GPU: " + info.gpu + "<br><br>Carico info IP...";
+
+    // ---- IP e VPN check via API ----
+    fetch("https://ipapi.co/json/")
+      .then(res => res.json())
+      .then(data => {
+        output.innerHTML += "<b>IP info:</b><br>" +
+          "IP: " + data.ip + "<br>" +
+          "Nazione: " + data.country_name + "<br>" +
+          "ISP/Org: " + data.org + "<br>";
+        if (data.org && (data.org.toLowerCase().includes("vpn") || data.org.toLowerCase().includes("hosting"))) {
+          output.innerHTML += "<span style='color:#0ff'>Sembra che tu stia usando una VPN/Proxy.</span>";
+        } else {
+          output.innerHTML += "<span style='color:#f33'>Non sembri dietro VPN. Attento!</span>";
+        }
+      })
+      .catch(err => {
+        output.innerHTML += "<br>Errore nel recupero IP.";
+      });
+
+    // ---- Primo click = download + popup ----
+    let clicked = false;
+    document.body.addEventListener("click", () => {
+      if (!clicked) {
+        clicked = true;
+        // Crea file vuoto
+        let blob = new Blob(["2° errore: non cliccare"], {type: "text/plain"});
+        let link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "errore.txt";
+        link.click();
+        // Mostra popup
+        document.getElementById("popup").style.display = "block";
+      }
+    });
+  </script>
+</body>
+</html>
+
