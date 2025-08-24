@@ -5,44 +5,61 @@
   <title>Cybersecurity Interactive Demo</title>
   <style>
     body {
-      font-family: monospace;
-      background: linear-gradient(135deg, #000 0%, #111 50%, #000 100%);
+      font-family: 'Fira Code', monospace;
+      background: #111;
       color: #0f0;
-      padding: 20px;
-      animation: bgMove 15s infinite alternate;
+      padding: 40px;
+      line-height: 1.5;
     }
-    @keyframes bgMove {
-      0% { background-position: 0% 0%; }
-      100% { background-position: 100% 100%; }
+    .fade-in {
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 1s ease, transform 1s ease;
+      margin-bottom: 20px;
     }
-    .box {
-      border: 1px solid #0f0;
-      padding: 10px;
-      margin: 15px 0;
-      background: #000;
-      min-height: 200px;
-      white-space: pre-wrap;
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
-    .popup {
+    .warning {
+      color: #f33;
+      font-weight: bold;
+    }
+    .safe {
+      color: #0ff;
+      font-weight: bold;
+    }
+    #popup {
       display: none;
       position: fixed;
       top: 50%; left: 50%;
       transform: translate(-50%, -50%);
-      background: #222;
+      background: rgba(34,34,34,0.95);
       color: #fff;
-      padding: 20px;
-      border: 2px solid #f33;
+      padding: 20px 30px;
+      border-radius: 8px;
       z-index: 1000;
+      max-width: 400px;
+      text-align: center;
+    }
+    #popup button {
+      margin-top: 15px;
+      padding: 8px 16px;
+      border: none;
+      background: #0f0;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 4px;
     }
   </style>
 </head>
 <body>
-  <div id="output" class="box"></div>
+  <div id="output"></div>
 
-  <div id="popup" class="popup">
-    <h2>⚠️ 2° Errore</h2>
-    <p>Hai cliccato! Questo file scaricato era innocuo, ma in un sito malevolo 
-    avrebbe potuto essere un malware. Pensa prima di agire.</p>
+  <div id="popup">
+    <h2>⚠️ Errore</h2>
+    <p id="popup-msg"></p>
     <button onclick="document.getElementById('popup').style.display='none'">Chiudi</button>
   </div>
 
@@ -68,70 +85,72 @@
       gpu: getGPU()
     };
 
-    // ---- Funzione digitazione lenta ----
-    function typeEffect(element, text, delay = 40, callback) {
-      let i = 0;
-      function addChar() {
-        if (i < text.length) {
-          element.innerHTML += text.charAt(i);
-          i++;
-          setTimeout(addChar, delay);
-        } else if (callback) {
-          callback();
-        }
-      }
-      addChar();
-    }
+    let lang = info.language.startsWith("it") ? "it" : "en";
 
-    // ---- Output box ----
     let output = document.getElementById("output");
 
-    // ---- Messaggio di benvenuto ----
-    let lang = info.language.startsWith("it") ? "it" : "en";
-    let welcomeMsg = lang === "it" ? "Benvenuto" : "Welcome";
-
-    // Step 1: Benvenuto + info browser base
-    typeEffect(output, `${welcomeMsg} ${info.userAgent}!\nSembra tu stia usando ${info.userAgent} per connetterti.\n\n`, 50, () => {
-      let browserInfo = 
-        `Browser info:\n` +
-        `User-Agent: ${info.userAgent}\n` +
-        `Lingua: ${info.language}\n` +
-        `Fuso orario: ${info.timezone}\n` +
-        `Risoluzione: ${info.screen}\n` +
-        `GPU: ${info.gpu}\n\nCarico info IP...\n`;
-      typeEffect(output, browserInfo, 40, loadIP);
-    });
-
-    // ---- Funzione per caricare IP e VPN ----
-    function loadIP() {
-      fetch("https://ipapi.co/json/")
-        .then(res => res.json())
-        .then(data => {
-          let ipInfo = 
-            `IP info:\n` +
-            `IP: ${data.ip}\n` +
-            `Nazione: ${data.country_name}\n` +
-            `ISP/Org: ${data.org}\n`;
-          let vpnMsg = (data.org && (data.org.toLowerCase().includes("vpn") || data.org.toLowerCase().includes("hosting")))
-            ? (lang === "it" ? "Sembra che tu stia usando una VPN/Proxy." : "It seems you are using a VPN/Proxy.")
-            : (lang === "it" ? "Non sembri dietro VPN. Attento!" : "You are not behind a VPN. Be careful!");
-          typeEffect(output, ipInfo + vpnMsg + "\n", 40);
-        })
-        .catch(err => {
-          typeEffect(output, lang === "it" ? "\nErrore nel recupero IP.\n" : "\nError retrieving IP.\n", 40);
-        });
+    // ---- Funzione fade-in pulita ----
+    function addLine(text, className="fade-in", delay=500) {
+      let div = document.createElement("div");
+      div.className = className;
+      div.textContent = text;
+      output.appendChild(div);
+      setTimeout(() => div.classList.add("visible"), 100);
     }
 
-    // ---- Primo click = download + popup ----
+    // ---- Carica IP e mostra welcome ----
+    fetch("https://ipapi.co/json/")
+      .then(res => res.json())
+      .then(data => {
+        // Welcome basato su IP
+        let welcome = lang === "it" 
+          ? `Benvenuto ${data.ip}! Stai navigando con ${info.userAgent}.`
+          : `Welcome ${data.ip}! You are connecting using ${info.userAgent}.`;
+        addLine(welcome);
+
+        // Browser info
+        let browserInfo = 
+          `${lang==="it" ? "Browser info:" : "Browser info:"}\n` +
+          `User-Agent: ${info.userAgent}\n` +
+          `Lingua: ${info.language}\n` +
+          `Fuso orario: ${info.timezone}\n` +
+          `Risoluzione: ${info.screen}\n` +
+          `GPU: ${info.gpu}`;
+        addLine(browserInfo);
+
+        // IP info e VPN check
+        let ipInfo = 
+          `${lang==="it" ? "IP info:" : "IP info:"}\n` +
+          `IP: ${data.ip}\n` +
+          `Nazione: ${data.country_name}\n` +
+          `ISP/Org: ${data.org}`;
+        addLine(ipInfo);
+
+        let vpnMsg = (data.org && (data.org.toLowerCase().includes("vpn") || data.org.toLowerCase().includes("hosting")))
+          ? (lang==="it" ? "Sembra che tu stia usando una VPN/Proxy." : "It seems you are using a VPN/Proxy.")
+          : (lang==="it" ? "Non sembri dietro VPN. Attento!" : "You are not behind a VPN. Be careful!");
+        addLine(vpnMsg, data.org && (data.org.toLowerCase().includes("vpn") || data.org.toLowerCase().includes("hosting")) ? "safe" : "warning");
+      })
+      .catch(err => {
+        addLine(lang==="it" ? "Errore nel recupero IP." : "Error retrieving IP.", "warning");
+      });
+
+    // ---- Primo click = download + popup multilingua ----
     let clicked = false;
     document.body.addEventListener("click", () => {
       if (!clicked) {
         clicked = true;
-        let blob = new Blob([lang === "it" ? "2° errore: non cliccare" : "2nd error: do not click"], {type: "text/plain"});
+        let fileContent = lang === "it" ? "2° errore: non cliccare" : "2nd error: do not click";
         let link = document.createElement("a");
-        link.href = URL.createObjectURL(blob);
+        link.href = URL.createObjectURL(new Blob([fileContent], {type:"text/plain"}));
         link.download = "errore.txt";
         link.click();
+
+        // Mostra popup
+        let popupMsg = lang === "it"
+          ? "Hai cliccato! Questo file era innocuo, ma in un sito malevolo avrebbe potuto essere un malware. Pensa prima di agire."
+          : "You clicked! This file was harmless, but on a malicious site it could have been malware. Think before you act.";
+        document.getElementById("popup-msg").textContent = popupMsg;
         document.getElementById("popup").style.display = "block";
       }
     });
