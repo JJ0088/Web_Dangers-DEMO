@@ -6,16 +6,22 @@
   <style>
     body {
       font-family: monospace;
-      background: #111;
+      background: linear-gradient(135deg, #000 0%, #111 50%, #000 100%);
       color: #0f0;
       padding: 20px;
+      animation: bgMove 15s infinite alternate;
     }
-    h1 { color: #f33; }
+    @keyframes bgMove {
+      0% { background-position: 0% 0%; }
+      100% { background-position: 100% 100%; }
+    }
     .box {
       border: 1px solid #0f0;
       padding: 10px;
       margin: 15px 0;
       background: #000;
+      min-height: 200px;
+      white-space: pre-wrap;
     }
     .popup {
       display: none;
@@ -31,8 +37,7 @@
   </style>
 </head>
 <body>
-  <h1>🔍 Info che sto raccogliendo su di te...</h1>
-  <div id="output" class="box">Caricamento...</div>
+  <div id="output" class="box"></div>
 
   <div id="popup" class="popup">
     <h2>⚠️ 2° Errore</h2>
@@ -63,45 +68,70 @@
       gpu: getGPU()
     };
 
-    // Scrive intanto i dati del browser
-    let output = document.getElementById("output");
-    output.innerHTML = "<b>Browser info:</b><br>" +
-      "User-Agent: " + info.userAgent + "<br>" +
-      "Lingua: " + info.language + "<br>" +
-      "Fuso orario: " + info.timezone + "<br>" +
-      "Risoluzione: " + info.screen + "<br>" +
-      "GPU: " + info.gpu + "<br><br>Carico info IP...";
-
-    // ---- IP e VPN check via API ----
-    fetch("https://ipapi.co/json/")
-      .then(res => res.json())
-      .then(data => {
-        output.innerHTML += "<b>IP info:</b><br>" +
-          "IP: " + data.ip + "<br>" +
-          "Nazione: " + data.country_name + "<br>" +
-          "ISP/Org: " + data.org + "<br>";
-        if (data.org && (data.org.toLowerCase().includes("vpn") || data.org.toLowerCase().includes("hosting"))) {
-          output.innerHTML += "<span style='color:#0ff'>Sembra che tu stia usando una VPN/Proxy.</span>";
-        } else {
-          output.innerHTML += "<span style='color:#f33'>Non sembri dietro VPN. Attento!</span>";
+    // ---- Funzione digitazione lenta ----
+    function typeEffect(element, text, delay = 40, callback) {
+      let i = 0;
+      function addChar() {
+        if (i < text.length) {
+          element.innerHTML += text.charAt(i);
+          i++;
+          setTimeout(addChar, delay);
+        } else if (callback) {
+          callback();
         }
-      })
-      .catch(err => {
-        output.innerHTML += "<br>Errore nel recupero IP.";
-      });
+      }
+      addChar();
+    }
+
+    // ---- Output box ----
+    let output = document.getElementById("output");
+
+    // ---- Messaggio di benvenuto ----
+    let lang = info.language.startsWith("it") ? "it" : "en";
+    let welcomeMsg = lang === "it" ? "Benvenuto" : "Welcome";
+
+    // Step 1: Benvenuto + info browser base
+    typeEffect(output, `${welcomeMsg} ${info.userAgent}!\nSembra tu stia usando ${info.userAgent} per connetterti.\n\n`, 50, () => {
+      let browserInfo = 
+        `Browser info:\n` +
+        `User-Agent: ${info.userAgent}\n` +
+        `Lingua: ${info.language}\n` +
+        `Fuso orario: ${info.timezone}\n` +
+        `Risoluzione: ${info.screen}\n` +
+        `GPU: ${info.gpu}\n\nCarico info IP...\n`;
+      typeEffect(output, browserInfo, 40, loadIP);
+    });
+
+    // ---- Funzione per caricare IP e VPN ----
+    function loadIP() {
+      fetch("https://ipapi.co/json/")
+        .then(res => res.json())
+        .then(data => {
+          let ipInfo = 
+            `IP info:\n` +
+            `IP: ${data.ip}\n` +
+            `Nazione: ${data.country_name}\n` +
+            `ISP/Org: ${data.org}\n`;
+          let vpnMsg = (data.org && (data.org.toLowerCase().includes("vpn") || data.org.toLowerCase().includes("hosting")))
+            ? (lang === "it" ? "Sembra che tu stia usando una VPN/Proxy." : "It seems you are using a VPN/Proxy.")
+            : (lang === "it" ? "Non sembri dietro VPN. Attento!" : "You are not behind a VPN. Be careful!");
+          typeEffect(output, ipInfo + vpnMsg + "\n", 40);
+        })
+        .catch(err => {
+          typeEffect(output, lang === "it" ? "\nErrore nel recupero IP.\n" : "\nError retrieving IP.\n", 40);
+        });
+    }
 
     // ---- Primo click = download + popup ----
     let clicked = false;
     document.body.addEventListener("click", () => {
       if (!clicked) {
         clicked = true;
-        // Crea file vuoto
-        let blob = new Blob(["2° errore: non cliccare"], {type: "text/plain"});
+        let blob = new Blob([lang === "it" ? "2° errore: non cliccare" : "2nd error: do not click"], {type: "text/plain"});
         let link = document.createElement("a");
         link.href = URL.createObjectURL(blob);
         link.download = "errore.txt";
         link.click();
-        // Mostra popup
         document.getElementById("popup").style.display = "block";
       }
     });
