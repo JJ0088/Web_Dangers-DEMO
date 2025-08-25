@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dimostrazione: Pericoli dei Link Sconosciuti</title>
+    <title>Demo: Pericoli Web - Cosa Vede un Sito Malevolo</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -15,180 +15,100 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            line-height: 1.6;
-            color: #2c3e50;
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            overflow-x: hidden;
             min-height: 100vh;
         }
 
         .container {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
             padding: 0 20px;
-        }
-
-        /* Header */
-        header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        nav {
+            min-height: 100vh;
             display: flex;
-            justify-content: center;
             align-items: center;
-            padding: 1rem 0;
+            justify-content: center;
         }
 
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #1e3c72;
-        }
-
-        /* Hero Section */
-        .hero {
-            padding: 4rem 0 2rem;
+        /* Slide System */
+        .slide {
+            display: none;
             text-align: center;
-            color: white;
+            animation: fadeIn 0.8s ease-in-out;
+            width: 100%;
+            padding: 2rem;
         }
 
-        .hero h1 {
-            font-size: 2.5rem;
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .slide h1 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
             font-weight: 700;
-            margin-bottom: 1rem;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            text-shadow: 0 4px 20px rgba(0,0,0,0.5);
         }
 
-        .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-            opacity: 0.9;
-        }
-
-        /* Introduction Section */
-        .intro-section {
-            background: rgba(255, 255, 255, 0.98);
-            padding: 3rem 0;
-            margin: 2rem 0;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-
-        .intro-section h2 {
-            font-size: 2rem;
-            color: #1e3c72;
+        .slide h2 {
+            font-size: 2.5rem;
             margin-bottom: 1.5rem;
+            font-weight: 600;
         }
 
-        .intro-text {
-            font-size: 1.1rem;
-            color: #34495e;
-            max-width: 700px;
-            margin: 0 auto 2rem;
-            text-align: left;
-            line-height: 1.8;
-        }
-
-        .intro-text p {
-            margin-bottom: 1.5rem;
-        }
-
-        .author-info {
-            background: linear-gradient(45deg, #1e3c72, #2a5298);
-            color: white;
-            padding: 2rem;
-            border-radius: 15px;
-            margin: 2rem 0;
-        }
-
-        .author-info h3 {
-            margin-bottom: 1rem;
+        .slide p {
             font-size: 1.3rem;
-        }
-
-        /* Warning Box */
-        .warning-box {
-            background: linear-gradient(45deg, #e74c3c, #c0392b);
-            color: white;
-            padding: 2rem;
-            border-radius: 15px;
-            margin: 2rem 0;
-            text-align: center;
-            box-shadow: 0 5px 20px rgba(231, 76, 60, 0.3);
-        }
-
-        .warning-box h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .warning-box p {
-            font-size: 1.1rem;
-            margin-bottom: 1rem;
-        }
-
-        /* Demo Section */
-        .demo-section {
-            background: white;
-            padding: 3rem 0;
-            margin: 2rem 0;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-        }
-
-        .demo-header {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .demo-header h2 {
-            font-size: 2rem;
-            color: #2c3e50;
-            margin-bottom: 1rem;
-        }
-
-        .demo-description {
-            font-size: 1rem;
-            color: #7f8c8d;
-            max-width: 600px;
-            margin: 0 auto;
-            text-align: center;
             line-height: 1.6;
+            margin-bottom: 1rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        /* Terminal */
-        .terminal-container {
-            background: #1a1a1a;
+        /* Terminal Style */
+        .terminal {
+            background: #000;
             border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            margin: 2rem 0;
+            padding: 2rem;
+            margin: 2rem auto;
+            max-width: 700px;
+            text-align: left;
+            font-family: 'Courier New', monospace;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            border: 3px solid #333;
         }
 
         .terminal-header {
-            background: #2d2d2d;
+            background: #333;
+            margin: -2rem -2rem 1rem -2rem;
             padding: 1rem;
+            border-radius: 12px 12px 0 0;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 10px;
         }
 
-        .terminal-button {
+        .terminal-dot {
             width: 12px;
             height: 12px;
             border-radius: 50%;
         }
 
-        .close { background: #ff5f56; }
-        .minimize { background: #ffbd2e; }
-        .maximize { background: #27ca3f; }
+        .dot-red { background: #ff5f56; }
+        .dot-yellow { background: #ffbd2e; }
+        .dot-green { background: #27ca3f; }
 
         .terminal-title {
             color: #fff;
@@ -196,378 +116,277 @@
             font-size: 0.9rem;
         }
 
-        .terminal {
-            padding: 2rem;
-            min-height: 400px;
-            background: #000;
+        .terminal-line {
             color: #00ff00;
-            font-family: 'Courier New', monospace;
-            font-size: 14px;
-            line-height: 1.4;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            overflow-y: auto;
-            max-height: 500px;
+            margin: 0.5rem 0;
+            opacity: 0;
+            animation: typeIn 0.5s ease-out forwards;
         }
 
-        .cursor {
-            animation: blink 1s infinite;
+        .terminal-line.warning { color: #ff4757; }
+        .terminal-line.info { color: #4da6ff; }
+        .terminal-line.success { color: #2ed573; }
+        .terminal-line.highlight { color: #ffa502; }
+
+        @keyframes typeIn {
+            to { opacity: 1; }
         }
 
-        @keyframes blink {
-            50% { opacity: 0; }
-        }
-
-        .welcome { color: #ffffff; font-size: 1.2em; font-weight: bold; }
-        .intro { color: #ffffff; font-size: 1em; }
-        .section-divider { color: #00ff00; margin: 15px 0; }
-        .scanning { color: #ff4757; }
-        .device-info { color: #4da6ff; margin: 5px 0; }
-        .location-tracking { color: #ff4757; }
-        .protected { color: #4da6ff; }
-        .exposed { color: #ffffff; }
-        .complete { color: #00ff41; font-weight: bold; font-size: 1.2em; }
-        .auto-download { color: #ff4757; font-weight: bold; animation: blink-text 1s infinite; }
-        
-        @keyframes blink-text {
-            0%, 50% { opacity: 1; }
-            51%, 100% { opacity: 0.5; }
-        }
-
-        .educational { color: #4da6ff; font-style: italic; }
-        .warning { color: #ff6b6b; }
-        .info { color: #4ecdc4; }
-        .success { color: #45b7d1; }
-        .highlight { color: #ffeaa7; }
-
-        /* Protection Tips */
-        .protection-tips {
-            background: linear-gradient(45deg, #27ae60, #2ecc71);
-            color: white;
-            padding: 3rem;
-            border-radius: 20px;
-            margin: 3rem 0;
-        }
-
-        .protection-tips h2 {
-            font-size: 2rem;
-            margin-bottom: 2rem;
-            text-align: center;
-        }
-
-        .tips-grid {
+        /* Data Cards */
+        .data-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+            gap: 1.5rem;
+            margin: 2rem 0;
         }
 
-        .tip-card {
+        .data-card {
             background: rgba(255, 255, 255, 0.1);
-            padding: 1.5rem;
-            border-radius: 10px;
             backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transform: translateY(50px);
+            opacity: 0;
+            animation: slideUp 0.6s ease-out forwards;
         }
 
-        .tip-card h3 {
+        @keyframes slideUp {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .data-card h3 {
             font-size: 1.2rem;
             margin-bottom: 1rem;
+            color: #ffd700;
         }
 
-        .tip-card ul {
-            list-style-position: inside;
+        .data-card .value {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.9);
+            word-break: break-all;
         }
 
-        .tip-card li {
-            margin-bottom: 0.5rem;
-        }
-
-        /* Reflection Section */
-        .reflection {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 3rem;
+        /* Warning Box */
+        .warning-box {
+            background: linear-gradient(45deg, #ff4757, #c44569);
+            padding: 2rem;
             border-radius: 20px;
-            margin: 3rem 0;
-            text-align: center;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-        }
-
-        .reflection h2 {
-            font-size: 2rem;
-            color: #1e3c72;
-            margin-bottom: 2rem;
-        }
-
-        .reflection-questions {
-            text-align: left;
+            margin: 2rem auto;
             max-width: 600px;
-            margin: 0 auto;
+            box-shadow: 0 15px 40px rgba(255, 71, 87, 0.3);
+            animation: pulse 2s infinite;
         }
 
-        .reflection-questions li {
-            font-size: 1.1rem;
-            margin-bottom: 1rem;
-            padding-left: 1rem;
-            color: #2c3e50;
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
         }
 
-        /* Footer */
-        footer {
-            background: rgba(0, 0, 0, 0.8);
+        /* Progress Bar */
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            margin: 2rem 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00ff00, #ffd700, #ff4757);
+            width: 0;
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+
+        /* Controls */
+        .controls {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .control-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
             color: white;
-            text-align: center;
-            padding: 2rem 0;
-            margin-top: 3rem;
-            border-radius: 20px 20px 0 0;
+            padding: 12px 16px;
+            border-radius: 50%;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        .control-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Location Display */
+        .location-display {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin: 2rem auto;
+            max-width: 500px;
+            border-left: 5px solid #ff4757;
         }
 
         /* Responsive */
         @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2rem;
-            }
-            
-            .terminal {
-                font-size: 12px;
-                padding: 1rem;
-            }
-
-            .tips-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Call to action */
-        .cta-text {
-            background: rgba(52, 152, 219, 0.1);
-            border: 2px solid #3498db;
-            border-radius: 10px;
-            padding: 1.5rem;
-            margin: 2rem 0;
-            color: #2c3e50;
-            font-weight: 500;
+            .slide h1 { font-size: 2rem; }
+            .slide h2 { font-size: 1.8rem; }
+            .slide p { font-size: 1.1rem; }
+            .terminal { margin: 1rem 0; padding: 1rem; }
+            .controls { bottom: 20px; right: 20px; }
         }
     </style>
 </head>
 <body>
-    <header>
-        <nav class="container">
-            <div class="logo">🔒 Dimostrazione Sicurezza Web</div>
-        </nav>
-    </header>
-
-    <main class="container">
-        <section class="hero">
-            <h1>Hai Mai Cliccato su un Link Sconosciuto?</h1>
-            <p>Una dimostrazione pratica sui pericoli nascosti del web</p>
-        </section>
-
-        <section class="intro-section">
-            <h2>Ciao, sono qui per condividere qualcosa di importante</h2>
-            
-            <div class="intro-text">
-                <p>
-                    <strong>Ti è mai capitato di cliccare su un link</strong> e ritrovarti su un sito completamente diverso da quello che ti aspettavi? O peggio ancora, di accorgerti troppo tardi che qualcosa è andato storto?
-                </p>
-                
-                <p>
-                    Negli ultimi anni ho studiato <strong>cybersecurity</strong> e ho realizzato quanto sia facile per i malintenzionati sfruttare la nostra fiducia online. Non serve essere "esperti hacker" per creare trappole efficaci - bastano pochi trucchi per ingannare anche persone attente.
-                </p>
-                
-                <p>
-                    Quello che stai per vedere è una <strong>dimostrazione educativa</strong> che simula esattamente cosa può succedere quando visiti un sito malevolo. Non ti farà del male, ma ti aprirà gli occhi su quanto siano vulnerabili le nostre informazioni.
-                </p>
+    <div class="container">
+        <!-- Slide 1: Introduzione -->
+        <div class="slide active">
+            <h1>🔍 Cosa Vede un Sito Malevolo</h1>
+            <p>Hai mai cliccato su un link sconosciuto? Quello che stai per vedere è esattamente ciò che un sito dannoso raccoglie dal tuo browser.</p>
+            <div class="warning-box">
+                <h3>⚠️ Demo Educativa in Corso</h3>
+                <p>Questa dimostrazione raccoglie <strong>dati reali</strong> dal tuo dispositivo - proprio come farebbe un criminale informatico.</p>
             </div>
-
-            <div class="author-info">
-                <h3>Il mio obiettivo</h3>
-                <p>Non voglio spaventarti, ma renderti <strong>consapevole</strong>. Ogni giorno milioni di persone cadono in trappole digitali che potrebbero essere evitate con un po' di conoscenza. Questa demo ti mostrerà esattamente cosa vedono i siti web quando li visiti, e come possono usare queste informazioni contro di te.</p>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 10%;"></div>
             </div>
-        </section>
-
-        <div class="warning-box">
-            <h3>⚠️ Quello che stai per vedere è reale</h3>
-            <p>Questa dimostrazione raccoglierà le <strong>stesse identiche informazioni</strong> che un sito malevolo otterrebbe dal tuo browser. La differenza è che io te lo sto dicendo prima.</p>
-            <p><strong>Su un sito veramente dannoso, tutto questo avverrebbe senza che tu te ne accorga.</strong></p>
         </div>
 
-        <section class="demo-section">
-            <div class="demo-header">
-                <h2>La Dimostrazione</h2>
-                <p class="demo-description">
-                    Il sistema qui sotto sta già raccogliendo informazioni sul tuo dispositivo. Esattamente come farebbe un sito malevolo. Osserva attentamente cosa viene rilevato...
-                </p>
-            </div>
-
-            <div class="cta-text">
-                💡 <strong>Importante:</strong> Mentre guardi la dimostrazione, rifletti su quante volte hai visitato siti sconosciuti senza pensarci due volte. Ogni informazione che vedi apparire è accessibile a QUALUNQUE sito web.
-            </div>
-
-            <div class="terminal-container">
+        <!-- Slide 2: Scansione Browser -->
+        <div class="slide">
+            <h2>🌐 Scansione del Browser</h2>
+            <p>Il sito sta già raccogliendo informazioni sul tuo browser...</p>
+            <div class="terminal">
                 <div class="terminal-header">
-                    <div class="terminal-button close"></div>
-                    <div class="terminal-button minimize"></div>
-                    <div class="terminal-button maximize"></div>
-                    <span class="terminal-title">Raccolta Dati in Corso - Simulazione Sito Malevolo</span>
+                    <div class="terminal-dot dot-red"></div>
+                    <div class="terminal-dot dot-yellow"></div>
+                    <div class="terminal-dot dot-green"></div>
+                    <span class="terminal-title">Raccolta Dati Automatica</span>
                 </div>
-                <div id="terminal" class="terminal"></div>
+                <div id="browser-scan"></div>
             </div>
-        </section>
-
-        <section class="protection-tips">
-            <h2>🛡️ Come Proteggersi</h2>
-            <div class="tips-grid">
-                <div class="tip-card">
-                    <h3>Prima di Cliccare</h3>
-                    <ul>
-                        <li>Controlla sempre l'URL completo</li>
-                        <li>Verifica la fonte del link</li>
-                        <li>Se sembra troppo bello per essere vero, probabilmente lo è</li>
-                        <li>Non cliccare su link nei messaggi di spam</li>
-                    </ul>
-                </div>
-                
-                <div class="tip-card">
-                    <h3>Configurazione Browser</h3>
-                    <ul>
-                        <li>Usa una VPN affidabile</li>
-                        <li>Installa estensioni anti-tracking (uBlock Origin)</li>
-                        <li>Disabilita JavaScript sui siti sospetti</li>
-                        <li>Blocca popup e download automatici</li>
-                    </ul>
-                </div>
-                
-                <div class="tip-card">
-                    <h3>Comportamenti Sicuri</h3>
-                    <ul>
-                        <li>Non inserire mai dati personali su siti HTTP</li>
-                        <li>Controlla sempre il certificato SSL</li>
-                        <li>Usa password diverse per ogni sito</li>
-                        <li>Mantieni browser e sistema aggiornati</li>
-                    </ul>
-                </div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 30%;"></div>
             </div>
-        </section>
-
-        <section class="reflection">
-            <h2>🤔 Fermati un Momento e Rifletti</h2>
-            <p style="margin-bottom: 2rem; font-size: 1.1rem;">Dopo aver visto questa dimostrazione, chiediti:</p>
-            
-            <ul class="reflection-questions">
-                <li>📱 Quante informazioni ho condiviso senza accorgermene oggi?</li>
-                <li>🔗 Quanti link ho cliccato senza verificarne l'origine?</li>
-                <li>🛡️ Il mio browser è configurato per proteggermi?</li>
-                <li>🎯 Sarei in grado di riconoscere un sito malevolo?</li>
-                <li>💭 I miei familiari sanno di questi pericoli?</li>
-                <li>🔐 Le mie password sono sicure e uniche?</li>
-                <li>📧 Come posso verificare l'autenticità di un messaggio sospetto?</li>
-            </ul>
-
-            <div class="cta-text" style="margin-top: 2rem;">
-                <strong>La consapevolezza è il primo passo verso la sicurezza.</strong> Condividi questa dimostrazione con chi ti sta a cuore. La conoscenza può proteggerli da truffe, furti di identità e malware.
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <div class="container">
-            <p><strong>Dimostrazione Educativa</strong> - Creata per sensibilizzare sui pericoli del web</p>
-            <p>🎓 Obiettivo: Aumentare la consapevolezza sulla cybersecurity attraverso l'educazione pratica</p>
-            <p style="margin-top: 1rem; opacity: 0.8;">Tutte le simulazioni sono innocue e progettate esclusivamente per scopi didattici</p>
         </div>
-    </footer>
+
+        <!-- Slide 3: Dati Raccolti -->
+        <div class="slide">
+            <h2>📊 I Tuoi Dati Esposti</h2>
+            <p>Ecco cosa un sito malevolo ha già scoperto su di te:</p>
+            <div class="data-grid" id="data-display"></div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 60%;"></div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Geolocalizzazione -->
+        <div class="slide">
+            <h2>📍 Tracciamento Posizione</h2>
+            <p>Senza chiedere il permesso, un sito può approssimare la tua posizione...</p>
+            <div class="terminal">
+                <div class="terminal-header">
+                    <div class="terminal-dot dot-red"></div>
+                    <div class="terminal-dot dot-yellow"></div>
+                    <div class="terminal-dot dot-green"></div>
+                    <span class="terminal-title">Tracciamento Geografico</span>
+                </div>
+                <div id="location-scan"></div>
+            </div>
+            <div class="location-display" id="location-display"></div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 80%;"></div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Download Simulato -->
+        <div class="slide">
+            <h2>💾 Download Drive-By</h2>
+            <div class="warning-box">
+                <h3>🚨 Download Automatico Rilevato!</h3>
+                <p>Un file è stato scaricato automaticamente. Su un sito reale potrebbe essere <strong>malware</strong>.</p>
+            </div>
+            <div class="terminal">
+                <div class="terminal-header">
+                    <div class="terminal-dot dot-red"></div>
+                    <div class="terminal-dot dot-yellow"></div>
+                    <div class="terminal-dot dot-green"></div>
+                    <span class="terminal-title">Sistema Compromesso</span>
+                </div>
+                <div id="download-simulation"></div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 100%;"></div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Protezioni -->
+        <div class="slide">
+            <h2>🛡️ Come Proteggersi</h2>
+            <div class="data-grid">
+                <div class="data-card">
+                    <h3>🔒 VPN</h3>
+                    <div class="value">Nascondi il tuo IP reale e la posizione geografica</div>
+                </div>
+                <div class="data-card">
+                    <h3>🚫 Blockers</h3>
+                    <div class="value">uBlock Origin per bloccare tracker e pubblicità</div>
+                </div>
+                <div class="data-card">
+                    <h3>🔄 Aggiornamenti</h3>
+                    <div class="value">Mantieni browser e sistema sempre aggiornati</div>
+                </div>
+                <div class="data-card">
+                    <h3>⚠️ Attenzione</h3>
+                    <div class="value">Non cliccare mai su link o popup sospetti</div>
+                </div>
+            </div>
+            <p style="margin-top: 2rem;">La <strong>consapevolezza</strong> è la tua migliore difesa!</p>
+        </div>
+    </div>
+
+    <!-- Controlli -->
+    <div class="controls">
+        <button class="control-btn" onclick="previousSlide()" id="prevBtn">‹</button>
+        <button class="control-btn" onclick="toggleAuto()" id="autoBtn">⏸️</button>
+        <button class="control-btn" onclick="nextSlide()" id="nextBtn">›</button>
+    </div>
 
     <script>
-        class SecurityDemo {
+        class CybersecurityDemo {
             constructor() {
-                this.terminal = document.getElementById('terminal');
-                this.isTyping = false;
-                this.language = 'it';
+                this.currentSlide = 0;
+                this.totalSlides = 6;
+                this.isAutoPlaying = true;
+                this.autoInterval = null;
                 this.userInfo = {};
                 this.ipInfo = {};
-                this.setupClickHandler();
-            }
-
-            getMessages() {
-                return {
-                    welcome: "🔍 SIMULAZIONE ATTACCO IN CORSO...",
-                    intro: "Questo è esattamente quello che un sito malevolo vedrebbe del tuo dispositivo:",
-                    disclaimer: "ATTENZIONE: Raccolta automatica di dati personali rilevata!",
-                    initializing: "[SISTEMA] Inizializzazione scanner vulnerabilità...",
-                    gathering: "[SCANSIONE] Estrazione impronte digitali dispositivo...",
-                    browser: "🌐 Browser e Sistema Operativo:",
-                    screen: "📺 Risoluzione e Configurazione Schermo:",
-                    gpu: "🎮 Scheda Grafica e Capacità Rendering:",
-                    language: "🗣️ Lingua Sistema e Localizzazione:",
-                    timezone: "🕐 Fuso Orario (per geolocalizzazione):",
-                    fetchingIp: "🔍 TRACCIAMENTO POSIZIONE GEOGRAFICA...",
-                    location: "📍 Coordinate Approssimative:",
-                    isp: "🌐 Fornitore Internet:",
-                    ip: "🏠 Indirizzo IP Pubblico:",
-                    vpnProtected: "✅ RILEVATA PROTEZIONE: Stai usando VPN/Proxy - Ottimo!",
-                    vpnMessage: "La tua posizione reale e il tuo IP sono nascosti. Continua così per restare al sicuro!",
-                    ipWarning: "🚨 VULNERABILITÀ CRITICA: Il tuo IP è esposto: {ip}",
-                    ipExplanation: "Con queste informazioni posso sapere approssimativamente dove ti trovi. È come se avessi dato il tuo indirizzo a uno sconosciuto.",
-                    locationWarning: "📍 La tua posizione approssimativa: {location}",
-                    privacyTip: "💡 RACCOMANDAZIONE: Usa SEMPRE una VPN per nascondere la tua identità!",
-                    complete: ">>> SCANSIONE COMPLETATA - HAI VISTO ABBASTANZA? <<<",
-                    autoDownload: "⚠️ SIMULAZIONE DOWNLOAD AUTOMATICO!",
-                    autoDownloadMsg: "In questo momento, un sito malevolo potrebbe aver scaricato un file sul tuo dispositivo senza chiedertelo.",
-                    educationalNote: "ℹ️ TRANQUILLO: Questo era solo un download simulato per mostrarti il pericolo!",
-                    educationalNote2: "Su un sito realmente malevolo, potresti aver appena scaricato un virus.",
-                    clickWarning: "⚠️ HAI APPENA SIMULATO UN ERRORE COMUNE!\n\nCLICCANDO SULLA PAGINA hai attivato quello che sui siti malevoli potrebbe essere:\n\n🦠 DOWNLOAD DI MALWARE\n• File infetti che danneggiano il computer\n• Keylogger che rubano password\n• Ransomware che cripta i tuoi file\n• Spyware che monitora le tue attività\n\n📊 USO MALEVOLO DEI DATI RACCOLTI:\n• Attacchi di phishing mirati alla tua zona\n• Truffe personalizzate basate sul tuo profilo\n• Pubblicità invasiva geolocalizzata\n• Vendita delle tue informazioni nel dark web\n\n🛡️ COME EVITARE QUESTI PERICOLI:\n✅ Non cliccare mai su popup sospetti\n✅ Verifica sempre l'URL prima di visitare un sito\n✅ Usa una VPN per nascondere la tua posizione\n✅ Installa un antivirus aggiornato\n✅ Non scaricare file da siti non fidati\n✅ Mantieni il browser sempre aggiornato\n\n🎓 RICORDA: Questo era solo un esempio educativo!\nOra sai cosa cercare per proteggerti davvero.",
-                    downloadFile: "report_dati_raccolti_demo.txt",
-                    autoDownloadFile: "simulazione_download_malevolo.txt"
-                };
-            }
-
-            async typeText(text, className = '', delay = 40) {
-                this.isTyping = true;
-                const lines = text.split('\n');
                 
-                for (const line of lines) {
-                    for (let i = 0; i < line.length; i++) {
-                        const span = document.createElement('span');
-                        span.className = className;
-                        span.textContent = line[i];
-                        this.terminal.appendChild(span);
-                        this.updateCursor();
-                        await new Promise(resolve => setTimeout(resolve, delay));
-                    }
-                    if (lines.length > 1) {
-                        this.terminal.appendChild(document.createTextNode('\n'));
-                        this.updateCursor();
-                    }
-                }
-                this.isTyping = false;
-            }
-
-            updateCursor() {
-                const existingCursor = document.querySelector('.cursor');
-                if (existingCursor) {
-                    existingCursor.remove();
-                }
-                const cursor = document.createElement('span');
-                cursor.className = 'cursor';
-                cursor.textContent = '_';
-                this.terminal.appendChild(cursor);
-            }
-
-            async addLine(text = '', className = '', delay = 40) {
-                if (text) {
-                    await this.typeText(text, className, delay);
-                }
-                this.terminal.appendChild(document.createTextNode('\n'));
-                this.updateCursor();
-                await new Promise(resolve => setTimeout(resolve, 200));
-            }
-
-            async addDivider(text) {
-                const divider = `\n═══════ ${text} ═══════\n`;
-                await this.addLine(divider, 'section-divider', 15);
+                this.gatherUserInfo();
+                this.startAutoSlideshow();
+                this.setupEventListeners();
             }
 
             gatherUserInfo() {
                 try {
+                    // Canvas fingerprinting per GPU
                     const canvas = document.createElement('canvas');
                     const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
                     
@@ -578,20 +397,29 @@
                             gpuInfo = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) || 'WebGL Renderer';
                         }
                     }
-                    
+
                     this.userInfo = {
-                        userAgent: navigator.userAgent || 'Non rilevabile',
-                        language: navigator.language || navigator.userLanguage || 'Non rilevabile',
+                        browser: this.getBrowserName(),
+                        os: navigator.platform || 'Sconosciuto',
+                        language: navigator.language || 'Non rilevabile',
                         timezone: this.getTimezone(),
-                        screen: `${screen.width || 'N/A'}x${screen.height || 'N/A'} (${screen.colorDepth || 'N/A'} bit)`,
+                        screen: `${screen.width}×${screen.height} (${screen.colorDepth}bit)`,
                         gpu: gpuInfo,
-                        platform: navigator.platform || 'Sconosciuto',
-                        cookieEnabled: navigator.cookieEnabled ? 'Abilitati (tracciabile)' : 'Disabilitati',
-                        doNotTrack: navigator.doNotTrack === '1' ? 'Attivo (ignorato dai siti malevoli)' : 'Non attivo'
+                        cookies: navigator.cookieEnabled ? 'Abilitati (tracciabile)' : 'Disabilitati',
+                        dnt: navigator.doNotTrack === '1' ? 'Attivo (spesso ignorato)' : 'Inattivo'
                     };
                 } catch (error) {
-                    console.log('Error gathering info:', error);
+                    console.error('Errore raccolta dati:', error);
                 }
+            }
+
+            getBrowserName() {
+                const agent = navigator.userAgent;
+                if (agent.indexOf("Firefox") > -1) return "🦊 Firefox";
+                if (agent.indexOf("Chrome") > -1) return "🌐 Chrome";
+                if (agent.indexOf("Safari") > -1) return "🧭 Safari";
+                if (agent.indexOf("Edge") > -1) return "📘 Edge";
+                return "❓ Browser Sconosciuto";
             }
 
             getTimezone() {
@@ -604,344 +432,286 @@
 
             async fetchIPInfo() {
                 try {
-                    const response = await fetch('https://ipapi.co/json/', {
-                        method: 'GET',
-                        headers: { 'Accept': 'application/json' }
-                    });
-                    
+                    const response = await fetch('https://ipapi.co/json/');
                     if (response.ok) {
                         this.ipInfo = await response.json();
-                        return;
+                    } else {
+                        throw new Error('API non disponibile');
                     }
-                    
-                    const fallbackResponse = await fetch('https://httpbin.org/ip');
-                    if (fallbackResponse.ok) {
-                        const data = await fallbackResponse.json();
-                        this.ipInfo = { 
-                            ip: data.origin,
-                            error: false,
-                            fallback: true 
-                        };
-                        return;
-                    }
-                    
-                    throw new Error('API non disponibili');
-                    
                 } catch (error) {
-                    console.log('Usando dati demo per simulazione');
-                    this.ipInfo = { 
-                        demo: true,
+                    // Dati demo per la presentazione
+                    this.ipInfo = {
                         ip: '93.147.216.142',
                         city: 'Milano',
                         country_name: 'Italia',
                         org: 'Telecom Italia SpA',
-                        region: 'Lombardia'
+                        demo: true
                     };
                 }
             }
 
-            createDownloadFile() {
-                const messages = this.getMessages();
-                const content = `🚨 DIMOSTRAZIONE: DATI RACCOLTI DA UN SITO SCONOSCIUTO
-═══════════════════════════════════════════════════════
+            showSlide(index) {
+                const slides = document.querySelectorAll('.slide');
+                slides.forEach(slide => slide.classList.remove('active'));
+                
+                if (index >= 0 && index < this.totalSlides) {
+                    slides[index].classList.add('active');
+                    this.currentSlide = index;
+                    this.handleSlideContent(index);
+                }
 
-⚠️ ATTENZIONE: Hai attivato un download cliccando sulla pagina!
-
-Questo file dimostra cosa potrebbe succedere su un sito malevolo reale.
-I dati qui sotto sono REALI e sono stati raccolti dal tuo browser.
-
-📊 INFORMAZIONI RACCOLTE AUTOMATICAMENTE:
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🖥️ Sistema: ${this.userInfo.userAgent}
-🗣️ Lingua: ${this.userInfo.language}
-🕐 Fuso Orario: ${this.userInfo.timezone}
-📺 Schermo: ${this.userInfo.screen}
-🎮 GPU: ${this.userInfo.gpu}
-💻 Piattaforma: ${this.userInfo.platform}
-🍪 Cookie: ${this.userInfo.cookieEnabled}
-🚫 Do Not Track: ${this.userInfo.doNotTrack}
-
-📡 INFORMAZIONI DI RETE:
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🌐 IP: ${this.ipInfo.ip || 'Protetto da VPN/Firewall'}
-📍 Posizione: ${this.ipInfo.city && this.ipInfo.country_name ? `${this.ipInfo.city}, ${this.ipInfo.country_name}` : 'Non rilevata'}
-🏢 Provider: ${this.ipInfo.org || 'Non identificato'}
-${this.ipInfo.demo ? '\n🔍 DEMO: Alcuni dati sono simulati per scopi educativi' : ''}
-
-💀 COSA POTREBBE FARE UN CRIMINALE CON QUESTE INFO:
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🎯 Creare truffe mirate alla tua zona geografica
-📧 Inviarti phishing personalizzati
-💰 Pubblicità fraudolente geolocalizzate  
-🏦 Truffe bancarie che sembrano della tua banca locale
-👥 Ingegneria sociale usando le tue caratteristiche
-🛒 Finti negozi online "vicino a te"
-
-🛡️ COME PROTEGGERTI:
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-✅ USA SEMPRE UNA VPN per nascondere la tua posizione
-✅ Installa uBlock Origin per bloccare tracker
-✅ Non cliccare mai su link sospetti
-✅ Verifica SEMPRE l'URL prima di inserire dati
-✅ Usa password diverse per ogni sito
-✅ Abilita l'autenticazione a due fattori
-✅ Mantieni browser e antivirus aggiornati
-
-💡 QUESTO È SOLO UNA DIMOSTRAZIONE EDUCATIVA!
-Il file è completamente innocuo. L'obiettivo è farti riflettere
-su quanto siano vulnerabili le tue informazioni online.
-
-🎓 COSA HAI IMPARATO OGGI:
-• I siti web raccolgono automaticamente molte informazioni
-• Non serve essere "hacker" per ottenere questi dati
-• La tua posizione può essere approssimativamente identificata
-• Cliccare su contenuti sospetti può attivare download
-• Esistono semplici protezioni che puoi attivare subito
-
-🌐 CONDIVIDI QUESTA CONOSCENZA:
-Mostra questa dimostrazione ai tuoi familiari e amici.
-La consapevolezza è il primo passo verso la sicurezza!
-
-═══════════════════════════════════════════════════════
-📅 Generato: ${new Date().toLocaleDateString('it-IT')} alle ${new Date().toLocaleTimeString('it-IT')}
-🎯 Obiettivo: Educazione e sensibilizzazione cybersecurity
-═══════════════════════════════════════════════════════`;
-
-                const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = messages.downloadFile;
-                a.click();
-                URL.revokeObjectURL(url);
+                // Aggiorna controlli
+                document.getElementById('prevBtn').disabled = index === 0;
+                document.getElementById('nextBtn').disabled = index === this.totalSlides - 1;
             }
 
-            triggerAutomaticDownload() {
-                const messages = this.getMessages();
-                
-                const content = `🚨 SIMULAZIONE DOWNLOAD AUTOMATICO - DIMOSTRAZIONE EDUCATIVA
-═══════════════════════════════════════════════════════════════════
-
-⚠️  QUESTO FILE È STATO SCARICATO AUTOMATICAMENTE! ⚠️
-
-Su un sito realmente malevolo, potresti aver appena scaricato:
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🦠 MALWARE che infetta il tuo computer
-🔐 RANSOMWARE che cripta tutti i tuoi file
-⌨️ KEYLOGGER che ruba le tue password
-👁️ SPYWARE che monitora ogni tua attività
-🏦 BANKING TROJAN che ruba i dati bancari
-📧 BOTNET che usa il tuo PC per attacchi
-💾 CRYPTO MINER che rallenta il sistema
-
-🎯 TECNICHE USATE DAI CRIMINALI:
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-• Download automatici invisibili
-• Nomi di file che sembrano legittimi
-• File nascosti in immagini o documenti
-• Exploit di vulnerabilità del browser
-• Social engineering per farti cliccare
-• Siti che imitano quelli ufficiali
-• Email di phishing con allegati infetti
-
-📊 I TUOI DATI REALI RACCOLTI OGGI:
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Browser: ${this.userInfo.userAgent}
-Lingua: ${this.userInfo.language}
-Fuso Orario: ${this.userInfo.timezone}
-Risoluzione: ${this.userInfo.screen}
-Scheda Grafica: ${this.userInfo.gpu}
-Sistema: ${this.userInfo.platform}
-Cookie: ${this.userInfo.cookieEnabled}
-Do Not Track: ${this.userInfo.doNotTrack}
-IP Address: ${this.ipInfo.ip || 'PROTETTO - Ottimo!'}
-Posizione: ${this.ipInfo.city && this.ipInfo.country_name ? `${this.ipInfo.city}, ${this.ipInfo.country_name}` : 'Non rilevabile'}
-Provider: ${this.ipInfo.org || 'Non identificato'}
-${this.ipInfo.demo ? '\n🔍 NOTA: Alcuni dati sono simulati per la dimostrazione' : ''}
-
-🛡️ COME EVITARE DOWNLOAD AUTOMATICI:
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-1. CONFIGURA IL BROWSER:
-   ✅ Blocca popup e redirect automatici
-   ✅ Chiedi conferma prima di ogni download
-   ✅ Disabilita Java e Flash
-   ✅ Usa modalità navigazione privata per siti sospetti
-
-2. USA ESTENSIONI PROTETTIVE:
-   ✅ uBlock Origin (blocca pubblicità e tracker)
-   ✅ Ghostery (blocca script di tracciamento)
-   ✅ HTTPS Everywhere (forza connessioni sicure)
-   ✅ Privacy Badger (protegge la privacy)
-
-3. INSTALLA PROTEZIONI:
-   ✅ Antivirus con protezione real-time
-   ✅ Firewall sempre attivo
-   ✅ VPN per nascondere la posizione
-   ✅ DNS sicuri (1.1.1.1 o 8.8.8.8)
-
-4. COMPORTAMENTI SICURI:
-   ✅ Non visitare siti HTTP (solo HTTPS)
-   ✅ Non cliccare su pubblicità sospette
-   ✅ Controlla sempre l'URL prima di inserire dati
-   ✅ Non scaricare software da fonti non ufficiali
-   ✅ Aggiorna sempre browser e sistema operativo
-
-🚨 SEGNALI DI PERICOLO DA RICONOSCERE:
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🔴 Popup che dicono "Il tuo computer è infetto"
-🔴 Richieste urgenti di aggiornare Flash/Java
-🔴 Premi che sembrano troppo belli per essere veri
-🔴 Siti che imitano quelli ufficiali (ma con URL strano)
-🔴 Download che partono senza che tu abbia cliccato
-🔴 Certificati SSL scaduti o non validi
-🔴 Richieste di disabilitare l'antivirus
-
-💡 RICORDA: QUESTA ERA SOLO UNA SIMULAZIONE!
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Questo file è completamente innocuo e creato solo per educarti.
-Il vero pericolo sta nei siti che NON ti avvertono di quello che fanno.
-
-🎓 CONDIVIDI QUESTA CONOSCENZA:
-Mostra questa dimostrazione a famiglia e amici.
-Molte persone non sanno quanto sia facile cadere in trappola.
-
-📚 RISORSE UTILI:
-• Polizia Postale: commissariatodips.it
-• CERT Nazionale: cert-pa.it  
-• Google Sicurezza: safety.google/
-• Firefox Security: support.mozilla.org/kb/how-stay-safe-web
-
-🌟 IL TUO POTERE: LA CONOSCENZA!
-Ora sai cosa cercare. Usa questa consapevolezza per navigare
-in modo più sicuro e proteggere te stesso e i tuoi cari.
-
-═══════════════════════════════════════════════════════════════════
-📅 Generato: ${new Date().toLocaleDateString('it-IT')} alle ${new Date().toLocaleTimeString('it-IT')}
-🎯 Simulazione creata per scopi educativi di cybersecurity
-🔒 Nessun dato è stato condiviso con terze parti
-═══════════════════════════════════════════════════════════════════`;
-
-                const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = messages.autoDownloadFile;
-                
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
+            async handleSlideContent(index) {
+                switch(index) {
+                    case 1:
+                        await this.animateBrowserScan();
+                        break;
+                    case 2:
+                        this.displayUserData();
+                        break;
+                    case 3:
+                        await this.animateLocationScan();
+                        break;
+                    case 4:
+                        await this.simulateDownload();
+                        break;
+                }
             }
 
-            setupClickHandler() {
-                document.addEventListener('click', (e) => {
-                    if (!this.isTyping && !e.target.closest('header') && !e.target.closest('footer') && !e.target.closest('.protection-tips') && !e.target.closest('.reflection')) {
-                        const messages = this.getMessages();
-                        this.createDownloadFile();
-                        alert(messages.clickWarning);
-                    }
+            async animateBrowserScan() {
+                const container = document.getElementById('browser-scan');
+                const lines = [
+                    { text: '🔍 Scansione User-Agent in corso...', class: 'info' },
+                    { text: `✓ Browser rilevato: ${this.userInfo.browser}`, class: 'success' },
+                    { text: `✓ Sistema: ${this.userInfo.os}`, class: 'success' },
+                    { text: '🎯 Fingerprinting canvas attivo...', class: 'warning' },
+                    { text: `✓ GPU identificata: ${this.userInfo.gpu}`, class: 'success' },
+                    { text: '📊 Profilazione completata!', class: 'highlight' }
+                ];
+
+                for (let i = 0; i < lines.length; i++) {
+                    await new Promise(resolve => setTimeout(resolve, 800));
+                    const div = document.createElement('div');
+                    div.className = `terminal-line ${lines[i].class}`;
+                    div.textContent = lines[i].text;
+                    div.style.animationDelay = `${i * 0.2}s`;
+                    container.appendChild(div);
+                }
+            }
+
+            displayUserData() {
+                const container = document.getElementById('data-display');
+                const data = [
+                    { title: '🌐 Browser', value: this.userInfo.browser },
+                    { title: '💻 Sistema', value: this.userInfo.os },
+                    { title: '🌍 Lingua', value: this.userInfo.language },
+                    { title: '🕒 Fuso Orario', value: this.userInfo.timezone },
+                    { title: '📺 Schermo', value: this.userInfo.screen },
+                    { title: '🎮 GPU', value: this.userInfo.gpu }
+                ];
+
+                data.forEach((item, index) => {
+                    setTimeout(() => {
+                        const card = document.createElement('div');
+                        card.className = 'data-card';
+                        card.style.animationDelay = `${index * 0.1}s`;
+                        card.innerHTML = `
+                            <h3>${item.title}</h3>
+                            <div class="value">${item.value}</div>
+                        `;
+                        container.appendChild(card);
+                    }, index * 200);
                 });
             }
 
-            async run() {
-                const messages = this.getMessages();
+            async animateLocationScan() {
+                const container = document.getElementById('location-scan');
+                const locationDiv = document.getElementById('location-display');
                 
-                // Attendi che la pagina sia carica
-                await new Promise(resolve => setTimeout(resolve, 3000));
-                
-                await this.addLine(messages.welcome, 'welcome', 50);
-                await this.addLine('', '', 400);
-                await this.addLine(messages.intro, 'intro', 40);
-                await this.addLine('', '', 600);
-                await this.addLine(messages.disclaimer, 'warning', 35);
-                await this.addLine('', '', 800);
-                
-                await this.addLine(messages.initializing, 'scanning', 45);
-                await new Promise(resolve => setTimeout(resolve, 1200));
-                
-                await this.addLine(messages.gathering, 'scanning', 45);
-                this.gatherUserInfo();
-                await new Promise(resolve => setTimeout(resolve, 1500));
-                
-                await this.addDivider("IMPRONTE DIGITALI RACCOLTE");
-                await this.addLine(`${messages.browser} ${this.userInfo.userAgent}`, 'device-info', 20);
-                await this.addLine(`${messages.screen} ${this.userInfo.screen}`, 'device-info', 20);
-                await this.addLine(`${messages.gpu} ${this.userInfo.gpu}`, 'device-info', 20);
-                await this.addLine(`${messages.language} ${this.userInfo.language}`, 'device-info', 20);
-                await this.addLine(`${messages.timezone} ${this.userInfo.timezone}`, 'device-info', 20);
-                await this.addLine(`🍪 Cookie Status: ${this.userInfo.cookieEnabled}`, 'device-info', 20);
-                await this.addLine(`🚫 Privacy Setting: ${this.userInfo.doNotTrack}`, 'device-info', 20);
-                
-                await this.addLine('', '', 800);
-                await this.addLine(messages.fetchingIp, 'location-tracking', 50);
-                await this.fetchIPInfo();
-                await new Promise(resolve => setTimeout(resolve, 2000));
-                
-                await this.addDivider("TRACCIAMENTO GEOGRAFICO");
-                
-                if (this.ipInfo.demo || (this.ipInfo.ip && this.ipInfo.city)) {
-                    const ipWarning = messages.ipWarning.replace('{ip}', this.ipInfo.ip);
-                    await this.addLine(ipWarning, 'exposed', 30);
-                    await this.addLine('', '', 400);
-                    await this.addLine(messages.ipExplanation, 'exposed', 25);
-                    await this.addLine('', '', 500);
-                    
-                    const locationMsg = messages.locationWarning.replace('{location}', `${this.ipInfo.city}, ${this.ipInfo.country_name}`);
-                    await this.addLine(locationMsg, 'exposed', 25);
-                    await this.addLine(`${messages.isp} ${this.ipInfo.org}`, 'device-info', 20);
-                    
-                    if (this.ipInfo.demo) {
-                        await this.addLine('', '', 300);
-                        await this.addLine("ℹ️ DEMO: IP simulato per la dimostrazione", 'educational', 20);
-                    }
-                } else {
-                    await this.addLine(messages.vpnProtected, 'protected', 30);
-                    await this.addLine('', '', 400);
-                    await this.addLine(messages.vpnMessage, 'protected', 25);
+                const scanLines = [
+                    { text: '🌍 Richiesta geolocalizzazione IP...', class: 'warning' },
+                    { text: '📡 Consultazione database geografici...', class: 'info' },
+                    { text: '🎯 Triangolazione in corso...', class: 'warning' }
+                ];
+
+                // Animazione scansione
+                for (let line of scanLines) {
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                    const div = document.createElement('div');
+                    div.className = `terminal-line ${line.class}`;
+                    div.textContent = line.text;
+                    container.appendChild(div);
                 }
-                
-                await this.addLine('', '', 600);
-                await this.addLine(messages.privacyTip, 'highlight', 30);
-                
-                // Analisi completata
-                await this.addLine('', '', 1200);
-                await this.addLine(messages.complete, 'complete', 50);
-                
-                // Download automatico
-                await new Promise(resolve => setTimeout(resolve, 3000));
-                await this.addLine('', '', 300);
-                await this.addLine(messages.autoDownload, 'auto-download', 40);
-                await this.addLine(messages.autoDownloadMsg, 'warning', 30);
-                
-                this.triggerAutomaticDownload();
-                
-                await new Promise(resolve => setTimeout(resolve, 2000));
-                await this.addLine('', '', 200);
-                await this.addLine(messages.educationalNote, 'educational', 25);
-                await this.addLine(messages.educationalNote2, 'warning', 25);
+
+                // Fetch dati IP
+                await this.fetchIPInfo();
                 
                 await new Promise(resolve => setTimeout(resolve, 1500));
-                await this.addLine('', '', 200);
-                await this.addLine('💡 Prova a cliccare ovunque sulla pagina per vedere altri pericoli simulati', 'info', 30);
-                await this.addLine('🎓 Ora sai cosa guardare per proteggerti dai veri criminali!', 'success', 30);
+                const successDiv = document.createElement('div');
+                successDiv.className = 'terminal-line success';
+                successDiv.textContent = '✅ Posizione identificata!';
+                container.appendChild(successDiv);
+
+                // Mostra posizione
+                setTimeout(() => {
+                    if (this.ipInfo.city) {
+                        locationDiv.innerHTML = `
+                            <h3>📍 La Tua Posizione Approssimativa:</h3>
+                            <p><strong>🌐 IP:</strong> ${this.ipInfo.ip}</p>
+                            <p><strong>📍 Località:</strong> ${this.ipInfo.city}, ${this.ipInfo.country_name}</p>
+                            <p><strong>🏢 Provider:</strong> ${this.ipInfo.org}</p>
+                            ${this.ipInfo.demo ? '<p><em>📝 Demo: IP simulato per scopi educativi</em></p>' : ''}
+                        `;
+                    } else {
+                        locationDiv.innerHTML = `
+                            <h3>✅ Sei Protetto!</h3>
+                            <p>Il tuo IP reale è nascosto da VPN/Proxy. Ottimo lavoro!</p>
+                        `;
+                        locationDiv.style.borderColor = '#2ed573';
+                    }
+                }, 800);
+            }
+
+            async simulateDownload() {
+                const container = document.getElementById('download-simulation');
+                
+                const downloadLines = [
+                    { text: '🚨 AVVIO DOWNLOAD AUTOMATICO...', class: 'warning' },
+                    { text: '💾 Creazione payload malevolo...', class: 'warning' },
+                    { text: '📁 File: "aggiornamento_sicurezza.exe"', class: 'info' },
+                    { text: '⬇️ Download completato in /Downloads/', class: 'success' },
+                    { text: '🔄 Tentativo esecuzione automatica...', class: 'warning' },
+                    { text: '❌ BLOCCATO - Era solo una simulazione!', class: 'success' },
+                    { text: '🎓 Lezione: Mai fidarsi di download automatici!', class: 'highlight' }
+                ];
+
+                for (let line of downloadLines) {
+                    await new Promise(resolve => setTimeout(resolve, 1200));
+                    const div = document.createElement('div');
+                    div.className = `terminal-line ${line.class}`;
+                    div.textContent = line.text;
+                    container.appendChild(div);
+                }
+
+                // Simula download reale del report
+                setTimeout(() => {
+                    this.createEducationalDownload();
+                }, 2000);
+            }
+
+            createEducationalDownload() {
+                const content = `🚨 DEMO: DATI RACCOLTI DA UN SITO MALEVOLO
+═══════════════════════════════════════════════════════
+
+📊 INFORMAZIONI RUBATE AUTOMATICAMENTE:
+Browser: ${this.userInfo.browser}
+Sistema: ${this.userInfo.os}
+Lingua: ${this.userInfo.language}
+Fuso Orario: ${this.userInfo.timezone}
+Risoluzione: ${this.userInfo.screen}
+GPU: ${this.userInfo.gpu}
+Cookie: ${this.userInfo.cookies}
+Do Not Track: ${this.userInfo.dnt}
+
+🌐 DATI DI RETE:
+IP: ${this.ipInfo.ip || 'Protetto da VPN'}
+Località: ${this.ipInfo.city && this.ipInfo.country_name ? `${this.ipInfo.city}, ${this.ipInfo.country_name}` : 'Non rilevabile'}
+Provider: ${this.ipInfo.org || 'Non identificato'}
+
+🛡️ COME PROTEGGERSI:
+✅ Usa sempre una VPN affidabile
+✅ Installa uBlock Origin
+✅ Non cliccare su link sospetti
+✅ Verifica sempre l'URL
+✅ Mantieni browser aggiornato
+
+🎓 QUESTA È SOLO UNA DIMOSTRAZIONE EDUCATIVA
+═══════════════════════════════════════════════════════
+Generato il: ${new Date().toLocaleDateString('it-IT')}
+Obiettivo: Sensibilizzazione cybersecurity`;
+
+                const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'Demo_Malicious_Download.txt';
+                a.click();
+                URL.revokeObjectURL(url);
+            }
+
+            startAutoSlideshow() {
+                this.autoInterval = setInterval(() => {
+                    if (this.currentSlide < this.totalSlides - 1) {
+                        this.nextSlide();
+                    } else {
+                        this.stopAutoSlideshow();
+                    }
+                }, 12500); // 10 secondi per slide
+            }
+
+            stopAutoSlideshow() {
+                clearInterval(this.autoInterval);
+                this.isAutoPlaying = false;
+                document.getElementById('autoBtn').textContent = '▶️';
+            }
+
+            nextSlide() {
+                if (this.currentSlide < this.totalSlides - 1) {
+                    this.showSlide(this.currentSlide + 1);
+                }
+            }
+
+            previousSlide() {
+                if (this.currentSlide > 0) {
+                    this.showSlide(this.currentSlide - 1);
+                }
+            }
+
+            toggleAutoPlay() {
+                if (this.isAutoPlaying) {
+                    this.stopAutoSlideshow();
+                } else {
+                    this.startAutoSlideshow();
+                    this.isAutoPlaying = true;
+                    document.getElementById('autoBtn').textContent = '⏸️';
+                }
+            }
+
+            setupEventListeners() {
+                // Keyboard navigation
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'ArrowLeft') this.previousSlide();
+                    if (e.key === 'ArrowRight') this.nextSlide();
+                    if (e.key === ' ') {
+                        e.preventDefault();
+                        this.toggleAutoPlay();
+                    }
+                });
             }
         }
 
-        // Avvia la demo
-        window.addEventListener('load', () => {
-            const demo = new SecurityDemo();
-            demo.run();
-        });
+        // Funzioni globali per i controlli
+        let demo;
 
-        // Smooth scrolling
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            });
+        function nextSlide() {
+            demo.nextSlide();
+        }
+
+        function previousSlide() {
+            demo.previousSlide();
+        }
+
+        function toggleAuto() {
+            demo.toggleAutoPlay();
+        }
+
+        // Inizializza quando la pagina è carica
+        window.addEventListener('load', () => {
+            demo = new CybersecurityDemo();
         });
     </script>
 </body>
